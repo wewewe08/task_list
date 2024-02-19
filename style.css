@@ -1,0 +1,11 @@
+.jumbotron {
+    background-color:darkseagreen;
+}
+
+#task-form {
+    font-size: 16px;
+}
+
+#task-form label {
+    padding-right: 10px;
+}
