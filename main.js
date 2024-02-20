@@ -40,20 +40,30 @@ function AddTask(title, priority, status) {
     task_list.appendChild(taskItem);
 }
 
+function GetRadioValue(name){
+    var radio_buttons = document.getElementsByName(name);
+
+    for (i = 0; i < radio_buttons.length; i++){
+        if (radio_buttons[i].checked) {
+            return radio_buttons[i].value;
+        }
+    }
+}
+
 function SubmitTask(){
     var task = {title:"", priority:"", status:""};
     var has_title = document.getElementById('task-title');
     var has_priority = document.querySelector('input[name="priority"]:checked')
     var has_status = document.querySelector('input[name="status"]:checked')
 
-    if (!has_title || !has_priority || !has_status) {
+    if (!has_title.value || !has_priority || !has_status) {
         alert("cannot be empty");
         return;
     }
     else {
         task.title = has_title.value;
-        task.priority = has_priority.value;
-        task.status = has_status.value;
+        task.priority = GetRadioValue("priority");
+        task.status = GetRadioValue("status");
     }
 
     if (task.status === "Pending") {
