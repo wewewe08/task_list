@@ -18,6 +18,19 @@ function UpdateTasks() {
     }
 }
 
+function AddButton(id, text) {
+    var taskButton = document.createElement('button');
+    document.createElement('button');
+
+    taskButton.classList.add('list-group-item-action');
+    taskButton.id = id;
+    taskButton.textContent = text;
+
+    /* Add button event listener */
+
+    return taskButton;
+}
+
 function AddTask(title, priority, status) {
     var task_list = document.getElementById("task-list");
 
@@ -32,18 +45,13 @@ function AddTask(title, priority, status) {
     taskDescription.classList.add('list-group-item-text');
     taskDescription.textContent = 'Priority: ' + priority + ', Status: ' + status;
 
-    var taskDeleteButton = document.createElement('button');
-    taskDeleteButton.classList.add('list-group-item-action');
-    taskDeleteButton.textContent = 'Remove task'
+    var taskDeleteButton = AddButton("delete-task", "Remove task")
 
     taskItem.appendChild(taskTitle);
     taskItem.appendChild(taskDescription);
 
     if (status === "Pending") {
-        var taskCompleteButton = document.createElement('button');
-        taskCompleteButton.classList.add('list-group-item-action');
-        taskCompleteButton.textContent = 'Mark task as "Completed"'
-
+        var taskCompleteButton = AddButton("complete-task", "Mark task as 'Completed'");
         taskItem.appendChild(taskCompleteButton);
     }
 
