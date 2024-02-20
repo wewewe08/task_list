@@ -13,3 +13,12 @@
 #task-form label {
     padding-right: 10px;
 }
+
+.list-group-item-text {
+    padding: 10px 0px;
+}
+
+.list-group-item-action {
+    margin: 0 auto;
+    padding: 5px;
+}

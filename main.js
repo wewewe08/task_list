@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
     UpdateTasks();
 })
 
-function UpdateTasks(){
+function UpdateTasks() {
     if (incomplete_tasks > 0) {
         document.querySelector('#list-header').innerHTML = `There are tasks to be completed!`
         document.querySelector('#list-description').innerHTML = `You currently have ${incomplete_tasks} task(s) to complete.`
@@ -21,8 +21,7 @@ function UpdateTasks(){
 function AddTask(title, priority, status) {
     var task_list = document.getElementById("task-list");
 
-    var taskItem = document.createElement('a');
-    taskItem.setAttribute('href', '#');
+    var taskItem = document.createElement('p');
     taskItem.classList.add('list-group-item');
 
     var taskTitle = document.createElement('h4');
@@ -33,11 +32,29 @@ function AddTask(title, priority, status) {
     taskDescription.classList.add('list-group-item-text');
     taskDescription.textContent = 'Priority: ' + priority + ', Status: ' + status;
 
+    var taskDeleteButton = document.createElement('button');
+    taskDeleteButton.classList.add('list-group-item-action');
+    taskDeleteButton.textContent = 'Remove task'
+
     taskItem.appendChild(taskTitle);
     taskItem.appendChild(taskDescription);
 
+    if (status === "Pending") {
+        var taskCompleteButton = document.createElement('button');
+        taskCompleteButton.classList.add('list-group-item-action');
+        taskCompleteButton.textContent = 'Mark task as "Completed"'
+
+        taskItem.appendChild(taskCompleteButton);
+    }
+
+    taskItem.appendChild(taskDeleteButton);
+
     current_tasks.push(taskItem);
     task_list.appendChild(taskItem);
+}
+
+function RemoveTask() {
+
 }
 
 function GetRadioValue(name){
@@ -50,14 +67,14 @@ function GetRadioValue(name){
     }
 }
 
-function SubmitTask(){
+function SubmitTask() {
     var task = {title:"", priority:"", status:""};
     var has_title = document.getElementById('task-title');
     var has_priority = document.querySelector('input[name="priority"]:checked')
     var has_status = document.querySelector('input[name="status"]:checked')
 
     if (!has_title.value || !has_priority || !has_status) {
-        alert("cannot be empty");
+        alert("All fields must be selected!");
         return;
     }
     else {
