@@ -42,10 +42,19 @@ function AddTask(title, priority, status) {
 
 function SubmitTask(){
     var task = {title:"", priority:"", status:""};
+    var has_title = document.getElementById('task-title');
+    var has_priority = document.querySelector('input[name="priority"]:checked')
+    var has_status = document.querySelector('input[name="status"]:checked')
 
-    task.title = document.getElementById('task-title').value;
-    task.priority = document.querySelector('input[name="priority"]:checked').value;
-    task.status = document.querySelector('input[name="status"]:checked').value;
+    if (!has_title || !has_priority || !has_status) {
+        alert("cannot be empty");
+        return;
+    }
+    else {
+        task.title = has_title.value;
+        task.priority = has_priority.value;
+        task.status = has_status.value;
+    }
 
     if (task.status === "Pending") {
         incomplete_tasks = incomplete_tasks + 1;
