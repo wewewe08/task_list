@@ -1,6 +1,4 @@
 var incomplete_tasks = 0;
-const current_tasks = [];
-
 var submitted_task = false;
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -25,8 +23,6 @@ function AddButton(id, text) {
     taskButton.classList.add('list-group-item-action');
     taskButton.id = id;
     taskButton.textContent = text;
-
-    /* Add button event listener */
 
     return taskButton;
 }
@@ -53,16 +49,39 @@ function AddTask(title, priority, status) {
     if (status === "Pending") {
         var taskCompleteButton = AddButton("complete-task", "Mark task as 'Completed'");
         taskItem.appendChild(taskCompleteButton);
+
+        taskCompleteButton.addEventListener("click", function() {
+            status = CompleteTask(priority, status, taskDescription, taskCompleteButton);
+        })
     }
 
     taskItem.appendChild(taskDeleteButton);
-
-    current_tasks.push(taskItem);
     task_list.appendChild(taskItem);
+
+    taskDeleteButton.addEventListener("click", function() {
+        DeleteTask(taskItem, status);
+    })
 }
 
-function RemoveTask() {
+function CompleteTask(priority, status, description, button) {
+    status = "Completed";
+    description.textContent = 'Priority: ' + priority + ', Status: ' + status;
+    button.remove();
 
+    incomplete_tasks = incomplete_tasks - 1;
+    UpdateTasks()
+
+    return status;
+}
+
+function DeleteTask(item, status) {
+    if (status === "Pending") {
+        incomplete_tasks = incomplete_tasks - 1;
+        UpdateTasks();
+    }
+
+    item.remove();
+    alert("Successfully removed the task!");
 }
 
 function GetRadioValue(name){
@@ -76,7 +95,12 @@ function GetRadioValue(name){
 }
 
 function SubmitTask() {
-    var task = {title:"", priority:"", status:""};
+    var task = {
+        title:"", 
+        priority:"", 
+        status:""
+    };
+    
     var has_title = document.getElementById('task-title');
     var has_priority = document.querySelector('input[name="priority"]:checked')
     var has_status = document.querySelector('input[name="status"]:checked')
