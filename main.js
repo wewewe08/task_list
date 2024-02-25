@@ -21,6 +21,7 @@ function AddButton(id, text) {
     document.createElement('button');
 
     taskButton.classList.add('list-group-item-action');
+    taskButton.classList.add('btn');
     taskButton.id = id;
     taskButton.textContent = text;
 
@@ -42,12 +43,14 @@ function AddTask(title, priority, status) {
     taskDescription.textContent = 'Priority: ' + priority + ', Status: ' + status;
 
     var taskDeleteButton = AddButton("delete-task", "Remove task")
+    taskDeleteButton.classList.add('btn-danger');
 
     taskItem.appendChild(taskTitle);
     taskItem.appendChild(taskDescription);
 
     if (status === "Pending") {
         var taskCompleteButton = AddButton("complete-task", "Mark task as 'Completed'");
+        taskCompleteButton.classList.add('btn-info');
         taskItem.appendChild(taskCompleteButton);
 
         taskCompleteButton.addEventListener("click", function() {
@@ -81,7 +84,6 @@ function DeleteTask(item, status) {
     }
 
     item.remove();
-    alert("Successfully removed the task!");
 }
 
 function GetRadioValue(name){
