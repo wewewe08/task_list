@@ -1,6 +1,8 @@
 var incomplete_tasks = 0;
 var submitted_task = false;
 
+var current_tasks = [];
+
 document.addEventListener('DOMContentLoaded', function(){
     UpdateTasks();
 })
@@ -28,7 +30,7 @@ function AddButton(id, text) {
     return taskButton;
 }
 
-function AddTask(title, priority, status) {
+function AddTask(task) {
     var task_list = document.getElementById("task-list");
 
     var taskItem = document.createElement('p');
@@ -36,11 +38,12 @@ function AddTask(title, priority, status) {
 
     var taskTitle = document.createElement('h4');
     taskTitle.classList.add('list-group-item-heading');
-    taskTitle.textContent = title;
+    taskTitle.id = task.status;
+    taskTitle.textContent = task.title;
 
     var taskDescription = document.createElement('p');
     taskDescription.classList.add('list-group-item-text');
-    taskDescription.textContent = 'Priority: ' + priority + ', Status: ' + status;
+    taskDescription.textContent = 'Priority: ' + task.priority + ', Status: ' + task.status;
 
     var taskDeleteButton = AddButton("delete-task", "Remove task")
     taskDeleteButton.classList.add('btn-danger');
@@ -48,33 +51,35 @@ function AddTask(title, priority, status) {
     taskItem.appendChild(taskTitle);
     taskItem.appendChild(taskDescription);
 
-    if (status === "Pending") {
+    if (task.status === "Pending") {
         var taskCompleteButton = AddButton("complete-task", "Mark task as 'Completed'");
         taskCompleteButton.classList.add('btn-info');
         taskItem.appendChild(taskCompleteButton);
 
         taskCompleteButton.addEventListener("click", function() {
-            status = CompleteTask(priority, status, taskDescription, taskCompleteButton);
+            task.status = CompleteTask(task, taskTitle, taskDescription, taskCompleteButton);
         })
     }
 
     taskItem.appendChild(taskDeleteButton);
     task_list.appendChild(taskItem);
+    current_tasks.push(taskItem);
 
     taskDeleteButton.addEventListener("click", function() {
-        DeleteTask(taskItem, status);
+        DeleteTask(taskItem, task.status);
     })
 }
 
-function CompleteTask(priority, status, description, button) {
-    status = "Completed";
-    description.textContent = 'Priority: ' + priority + ', Status: ' + status;
+function CompleteTask(task, title, description, button) {
+    task.status = "Completed";
+    description.textContent = 'Priority: ' + task.priority + ', Status: ' + task.status;
+    title.id = task.status;
     button.remove();
 
     incomplete_tasks = incomplete_tasks - 1;
     UpdateTasks()
 
-    return status;
+    return task.status;
 }
 
 function DeleteTask(item, status) {
@@ -84,6 +89,7 @@ function DeleteTask(item, status) {
     }
 
     item.remove();
+    current_tasks.pop(item);
 }
 
 function GetRadioValue(name){
@@ -122,5 +128,5 @@ function SubmitTask() {
     }
 
     UpdateTasks();
-    AddTask(task.title, task.priority, task.status);
+    AddTask(task);
 }

@@ -39,6 +39,10 @@ body {
     background-color: #AEBDCA;
 }
 
+#Completed {
+    text-decoration: line-through;
+}
+
 button {
     margin-right: 10px;
 }
