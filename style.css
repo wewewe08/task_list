@@ -1,5 +1,6 @@
 body {
     background-color: #F5EFE6;
+    text-align: center;
 }
 
 .jumbotron {
@@ -12,6 +13,7 @@ body {
 
 #task-form {
     font-size: 16px;
+    display: inline-block;
 }
 
 #task-form label {
@@ -24,6 +26,10 @@ body {
 
 .well {
     background-color: #AEBDCA;
+}
+
+#current-tasks {
+    display: inline-block;
 }
 
 button {
